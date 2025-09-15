@@ -1,0 +1,897 @@
+{
+ "Resources": {
+  "TransactionsTable0A011FCB": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "pk",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "sk",
+      "AttributeType": "S"
+     }
+    ],
+    "KeySchema": [
+     {
+      "AttributeName": "pk",
+      "KeyType": "HASH"
+     },
+     {
+      "AttributeName": "sk",
+      "KeyType": "RANGE"
+     }
+    ],
+    "ProvisionedThroughput": {
+     "ReadCapacityUnits": 5,
+     "WriteCapacityUnits": 5
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "FinapiStack/TransactionsTable/Resource"
+   }
+  },
+  "FinapiFunctionServiceRoleD8A67D6E": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "FinapiStack/FinapiFunction/ServiceRole/Resource"
+   }
+  },
+  "FinapiFunctionServiceRoleDefaultPolicy5B5415CE": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "TransactionsTable0A011FCB",
+          "Arn"
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "FinapiFunctionServiceRoleDefaultPolicy5B5415CE",
+    "Roles": [
+     {
+      "Ref": "FinapiFunctionServiceRoleD8A67D6E"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "FinapiStack/FinapiFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "FinapiFunction7628E0E1": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "f20a1db86a8999446231e690a6f3d64a7bf882a1015b228a16734ed3db0aca7f.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "TABLE_NAME": {
+       "Ref": "TransactionsTable0A011FCB"
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "FinapiFunctionServiceRoleD8A67D6E",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.11"
+   },
+   "DependsOn": [
+    "FinapiFunctionServiceRoleDefaultPolicy5B5415CE",
+    "FinapiFunctionServiceRoleD8A67D6E"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "FinapiStack/FinapiFunction/Resource",
+    "aws:asset:path": "asset.f20a1db86a8999446231e690a6f3d64a7bf882a1015b228a16734ed3db0aca7f",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "FinapiApiC58336AB": {
+   "Type": "AWS::ApiGateway::RestApi",
+   "Properties": {
+    "Name": "FinapiApi"
+   },
+   "Metadata": {
+    "aws:cdk:path": "FinapiStack/FinapiApi/Resource"
+   }
+  },
+  "FinapiApiDeployment7E5ACA02df44b48dbefc021676d181314e34f245": {
+   "Type": "AWS::ApiGateway::Deployment",
+   "Properties": {
+    "Description": "Automatically created by the RestApi construct",
+    "RestApiId": {
+     "Ref": "FinapiApiC58336AB"
+    }
+   },
+   "DependsOn": [
+    "FinapiApireportmonthlyGET7974287A",
+    "FinapiApireportmonthly9C6E08C3",
+    "FinapiApireportC8BEA47A",
+    "FinapiApitxGET920E29B9",
+    "FinapiApitxPOST05CC422E",
+    "FinapiApitx17A57388"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "FinapiStack/FinapiApi/Deployment/Resource"
+   }
+  },
+  "FinapiApiDeploymentStageprodA59A678A": {
+   "Type": "AWS::ApiGateway::Stage",
+   "Properties": {
+    "DeploymentId": {
+     "Ref": "FinapiApiDeployment7E5ACA02df44b48dbefc021676d181314e34f245"
+    },
+    "RestApiId": {
+     "Ref": "FinapiApiC58336AB"
+    },
+    "StageName": "prod"
+   },
+   "Metadata": {
+    "aws:cdk:path": "FinapiStack/FinapiApi/DeploymentStage.prod/Resource"
+   }
+  },
+  "FinapiApitx17A57388": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "FinapiApiC58336AB",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "tx",
+    "RestApiId": {
+     "Ref": "FinapiApiC58336AB"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FinapiStack/FinapiApi/Default/tx/Resource"
+   }
+  },
+  "FinapiApitxGETApiPermissionFinapiStackFinapiApi501733A2GETtx67AAE8DC": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "FinapiFunction7628E0E1",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "FinapiApiC58336AB"
+       },
+       "/",
+       {
+        "Ref": "FinapiApiDeploymentStageprodA59A678A"
+       },
+       "/GET/tx"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FinapiStack/FinapiApi/Default/tx/GET/ApiPermission.FinapiStackFinapiApi501733A2.GET..tx"
+   }
+  },
+  "FinapiApitxGETApiPermissionTestFinapiStackFinapiApi501733A2GETtx312B957C": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "FinapiFunction7628E0E1",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "FinapiApiC58336AB"
+       },
+       "/test-invoke-stage/GET/tx"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FinapiStack/FinapiApi/Default/tx/GET/ApiPermission.Test.FinapiStackFinapiApi501733A2.GET..tx"
+   }
+  },
+  "FinapiApitxGET920E29B9": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "FinapiFunction7628E0E1",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "FinapiApitx17A57388"
+    },
+    "RestApiId": {
+     "Ref": "FinapiApiC58336AB"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FinapiStack/FinapiApi/Default/tx/GET/Resource"
+   }
+  },
+  "FinapiApitxPOSTApiPermissionFinapiStackFinapiApi501733A2POSTtx5887DA5B": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "FinapiFunction7628E0E1",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "FinapiApiC58336AB"
+       },
+       "/",
+       {
+        "Ref": "FinapiApiDeploymentStageprodA59A678A"
+       },
+       "/POST/tx"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FinapiStack/FinapiApi/Default/tx/POST/ApiPermission.FinapiStackFinapiApi501733A2.POST..tx"
+   }
+  },
+  "FinapiApitxPOSTApiPermissionTestFinapiStackFinapiApi501733A2POSTtxACCB4471": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "FinapiFunction7628E0E1",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "FinapiApiC58336AB"
+       },
+       "/test-invoke-stage/POST/tx"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FinapiStack/FinapiApi/Default/tx/POST/ApiPermission.Test.FinapiStackFinapiApi501733A2.POST..tx"
+   }
+  },
+  "FinapiApitxPOST05CC422E": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "FinapiFunction7628E0E1",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "FinapiApitx17A57388"
+    },
+    "RestApiId": {
+     "Ref": "FinapiApiC58336AB"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FinapiStack/FinapiApi/Default/tx/POST/Resource"
+   }
+  },
+  "FinapiApireportC8BEA47A": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "FinapiApiC58336AB",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "report",
+    "RestApiId": {
+     "Ref": "FinapiApiC58336AB"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FinapiStack/FinapiApi/Default/report/Resource"
+   }
+  },
+  "FinapiApireportmonthly9C6E08C3": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "FinapiApireportC8BEA47A"
+    },
+    "PathPart": "monthly",
+    "RestApiId": {
+     "Ref": "FinapiApiC58336AB"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FinapiStack/FinapiApi/Default/report/monthly/Resource"
+   }
+  },
+  "FinapiApireportmonthlyGETApiPermissionFinapiStackFinapiApi501733A2GETreportmonthlyD15C0271": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "FinapiFunction7628E0E1",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "FinapiApiC58336AB"
+       },
+       "/",
+       {
+        "Ref": "FinapiApiDeploymentStageprodA59A678A"
+       },
+       "/GET/report/monthly"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FinapiStack/FinapiApi/Default/report/monthly/GET/ApiPermission.FinapiStackFinapiApi501733A2.GET..report.monthly"
+   }
+  },
+  "FinapiApireportmonthlyGETApiPermissionTestFinapiStackFinapiApi501733A2GETreportmonthlyFA5C370B": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "FinapiFunction7628E0E1",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "FinapiApiC58336AB"
+       },
+       "/test-invoke-stage/GET/report/monthly"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FinapiStack/FinapiApi/Default/report/monthly/GET/ApiPermission.Test.FinapiStackFinapiApi501733A2.GET..report.monthly"
+   }
+  },
+  "FinapiApireportmonthlyGET7974287A": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "FinapiFunction7628E0E1",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "FinapiApireportmonthly9C6E08C3"
+    },
+    "RestApiId": {
+     "Ref": "FinapiApiC58336AB"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FinapiStack/FinapiApi/Default/report/monthly/GET/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WPQW+DMAyFf0vvqcfKZdeWabdpiO5eGXCpC0kQNkIo4r9PhE7rTu+z/fwSH+A1SSDZ4ST7qm73HZcQzopVa3CSS6hnh9bXJYRvLDsy2dVFWEyHtqwRwsfoKmXv1tEz5zRYFmHvFsNoIRR+24+a+46rOfoiLUbSC4qQChxXMZLCaaxa0hMKGey5QaUJZwgFiR57jlkPfKe+87Mlp2v3qTorNvHVDQoSPw4Vxczf4hG08Sfpzddra6Nl+fPFj61B7JrV8TVqP+q/9ezqMu9q1nh3PuvNu5cU3uCwuwvzfhidsiUoNv0BuklLD38BAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "FinapiStack/CDKMetadata/Default"
+   },
+   "Condition": "CDKMetadataAvailable"
+  }
+ },
+ "Outputs": {
+  "FinapiApiEndpoint2FBF2120": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "FinapiApiC58336AB"
+      },
+      ".execute-api.",
+      {
+       "Ref": "AWS::Region"
+      },
+      ".",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "FinapiApiDeploymentStageprodA59A678A"
+      },
+      "/"
+     ]
+    ]
+   }
+  }
+ },
+ "Conditions": {
+  "CDKMetadataAvailable": {
+   "Fn::Or": [
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "af-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-northwest-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "sa-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-2"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-2"
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

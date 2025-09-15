@@ -1,0 +1,191 @@
+{
+  "version": "34.0.0",
+  "artifacts": {
+    "FinapiStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "FinapiStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "FinapiStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "FinapiStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/1019a04e462ecd2db232a487a825d84082b3d39a067a4a1093e9c71a03e15c1c.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "FinapiStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "FinapiStack.assets"
+      ],
+      "metadata": {
+        "/FinapiStack/TransactionsTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TransactionsTable0A011FCB"
+          }
+        ],
+        "/FinapiStack/FinapiFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FinapiFunctionServiceRoleD8A67D6E"
+          }
+        ],
+        "/FinapiStack/FinapiFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FinapiFunctionServiceRoleDefaultPolicy5B5415CE"
+          }
+        ],
+        "/FinapiStack/FinapiFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FinapiFunction7628E0E1"
+          }
+        ],
+        "/FinapiStack/FinapiApi/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FinapiApiC58336AB"
+          }
+        ],
+        "/FinapiStack/FinapiApi/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FinapiApiDeployment7E5ACA02df44b48dbefc021676d181314e34f245"
+          }
+        ],
+        "/FinapiStack/FinapiApi/DeploymentStage.prod/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FinapiApiDeploymentStageprodA59A678A"
+          }
+        ],
+        "/FinapiStack/FinapiApi/Endpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FinapiApiEndpoint2FBF2120"
+          }
+        ],
+        "/FinapiStack/FinapiApi/Default/tx/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FinapiApitx17A57388"
+          }
+        ],
+        "/FinapiStack/FinapiApi/Default/tx/GET/ApiPermission.FinapiStackFinapiApi501733A2.GET..tx": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FinapiApitxGETApiPermissionFinapiStackFinapiApi501733A2GETtx67AAE8DC"
+          }
+        ],
+        "/FinapiStack/FinapiApi/Default/tx/GET/ApiPermission.Test.FinapiStackFinapiApi501733A2.GET..tx": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FinapiApitxGETApiPermissionTestFinapiStackFinapiApi501733A2GETtx312B957C"
+          }
+        ],
+        "/FinapiStack/FinapiApi/Default/tx/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FinapiApitxGET920E29B9"
+          }
+        ],
+        "/FinapiStack/FinapiApi/Default/tx/POST/ApiPermission.FinapiStackFinapiApi501733A2.POST..tx": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FinapiApitxPOSTApiPermissionFinapiStackFinapiApi501733A2POSTtx5887DA5B"
+          }
+        ],
+        "/FinapiStack/FinapiApi/Default/tx/POST/ApiPermission.Test.FinapiStackFinapiApi501733A2.POST..tx": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FinapiApitxPOSTApiPermissionTestFinapiStackFinapiApi501733A2POSTtxACCB4471"
+          }
+        ],
+        "/FinapiStack/FinapiApi/Default/tx/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FinapiApitxPOST05CC422E"
+          }
+        ],
+        "/FinapiStack/FinapiApi/Default/report/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FinapiApireportC8BEA47A"
+          }
+        ],
+        "/FinapiStack/FinapiApi/Default/report/monthly/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FinapiApireportmonthly9C6E08C3"
+          }
+        ],
+        "/FinapiStack/FinapiApi/Default/report/monthly/GET/ApiPermission.FinapiStackFinapiApi501733A2.GET..report.monthly": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FinapiApireportmonthlyGETApiPermissionFinapiStackFinapiApi501733A2GETreportmonthlyD15C0271"
+          }
+        ],
+        "/FinapiStack/FinapiApi/Default/report/monthly/GET/ApiPermission.Test.FinapiStackFinapiApi501733A2.GET..report.monthly": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FinapiApireportmonthlyGETApiPermissionTestFinapiStackFinapiApi501733A2GETreportmonthlyFA5C370B"
+          }
+        ],
+        "/FinapiStack/FinapiApi/Default/report/monthly/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FinapiApireportmonthlyGET7974287A"
+          }
+        ],
+        "/FinapiStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/FinapiStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/FinapiStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/FinapiStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "FinapiStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}
