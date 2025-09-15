@@ -96,12 +96,12 @@ curl https://your-api-id.execute-api.region.amazonaws.com/prod/tx?month=2025-09
 
 ```mermaid
 flowchart LR
-  User[(Usuário / Cliente)]
-  APIGW[API Gateway]
-  LBD[Lambda (index.handler)]
-  DDB[(DynamoDB: finapi-transactions)]
+  User["Usuario / Cliente"]
+  APIGW["API Gateway"]
+  LBD["Lambda (index.handler)"]
+  DDB["DynamoDB: finapi-transactions"]
 
-  User -->|POST /tx, GET /tx, GET /report/monthly| APIGW --> LBD --> DDB
+  User -->|"POST /tx, GET /tx, GET /report/monthly"| APIGW --> LBD --> DDB
 ```
 ### Testes
 
