@@ -102,7 +102,7 @@ flowchart LR
   DDB[(DynamoDB: finapi-transactions)]
 
   User -->|POST /tx, GET /tx, GET /report/monthly| APIGW --> LBD --> DDB
-
+```
 ### Testes
 
 Para rodar os testes localmente:
@@ -113,6 +113,7 @@ python -m venv .venv
 pip install -r requirements.txt
 $env:PYTHONPATH="."
 pytest -q
+```
 
 ### Screenshot do teste funcionando:
 ![tests](docs/tests.png)
