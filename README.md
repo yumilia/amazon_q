@@ -20,7 +20,7 @@ A ideia surgiu para simplificar esse processo: bastar enviar um texto simples co
 - **Lambda**: Python 3.11 para lógica de negócio
 - **DynamoDB**: Tabela com pk/sk para transações
 
-## 📂 Estrutura do projeto
+## Estrutura do projeto
 
 ```text
 C:\finapi
@@ -50,6 +50,7 @@ C:\finapi
     ├── deploy.png                   # Etapa 3 – evidência do cdk deploy
     ├── costs.png                    # Etapa 4 – estimativa de custos
     └── architecture-ultra-low-cost.md # arquitetura de baixo custo gerada pelo Q Developer
+```
 
 ## Rotas
 
@@ -101,7 +102,7 @@ curl https://your-api-id.execute-api.region.amazonaws.com/prod/tx \
   -d "50 restaurante almoço"
 ```
 
-### Listar transações transação 
+### Listar transações  
 ```bash
 curl https://your-api-id.execute-api.region.amazonaws.com/prod/tx?month=2025-09
 ```
@@ -128,13 +129,18 @@ curl https://your-api-id.execute-api.region.amazonaws.com/prod/tx?month=2025-09
 
 ```mermaid
 flowchart LR
-  User[(Usuário / Cliente)]
-  APIGW[API Gateway]
-  LBD[Lambda (index.handler)]
-  DDB[(DynamoDB: finapi-transactions)]
+  User["Usuario / Cliente"]
+  APIGW["API Gateway"]
+  LBD["Lambda (index.handler)"]
+  DDB["DynamoDB (finapi-transactions)"]
 
-  User -->|POST /tx, GET /tx, GET /report/monthly| APIGW --> LBD --> DDB
+  User -->|"POST /tx, GET /tx, GET /report/monthly"| APIGW
+  APIGW --> LBD
+  LBD --> DDB
 ```
+
+---
+
 ### Testes
 
 Para rodar os testes localmente:
@@ -147,7 +153,7 @@ $env:PYTHONPATH="."
 pytest -q
 ```
 
-### Screenshot do teste funcionando:
+#### Screenshot do teste funcionando:
 ![tests](docs/tests.png)
 
 
@@ -176,12 +182,13 @@ Arquivos principais:
 - `finapi/finapi_stack.py` – definição da infraestrutura (DynamoDB, Lambda e API Gateway)  
 - `cdk.json` e `requirements.txt` – configuração e dependências  
 
-Comandos de deploy:
+#### Comandos de deploy:
 ```bash
 cdk bootstrap aws://<ACCOUNT_ID>/sa-east-1
 cdk deploy
+```
 
-Screenshot do deploy:  
+#### Screenshot do deploy:  
 ![cdk deploy](docs/deploy.png)
 
 ## Etapa 4 
@@ -192,5 +199,5 @@ O documento descreve uma arquitetura de **baixo custo** para o FinAPI, considera
 Consulte o arquivo completo em:  
 [docs/architecture-ultra-low-cost.md](docs/architecture-ultra-low-cost.md)
 
-Screenshot dos custos: 
+### Screenshot dos custos: 
 ![Estimativa de custos](docs/costs.png)
