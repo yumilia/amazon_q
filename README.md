@@ -3,16 +3,15 @@
 ## Sumário
 - [Descrição do problema](#descrição-do-problema)
 - [Solução](#solução)
-- [Arquitetura](#️-arquitetura)
-- [Estrutura do projeto](#-estrutura-do-projeto)
-- [Rotas](#-rotas)
-- [Deploy](#️-deploy)
-- [Exemplo de uso](#-exemplo-de-uso)
-- [Etapa 1](#-etapa-1)
-- [Etapa 2](#-etapa-2)
-- [Etapa 3](#-etapa-3)
-- [Etapa 4](#-etapa-4)
-- [Status geral](#-status-geral)
+- [Arquitetura](#arquitetura)
+- [Estrutura do projeto](#estrutura-do-projeto)
+- [Rotas](#rotas)
+- [Deploy](#deploy)
+- [Exemplo de uso](#exemplo-de-uso)
+- [Etapa 1](#etapa-1)
+- [Etapa 2](#etapa-2)
+- [Etapa 3](#etapa-3)
+- [Etapa 4](#etapa-4)
 
 ## Descrição do problema
 Muitas pessoas registram seus gastos de forma manual (planilhas, cadernos ou anotações soltas no celular).  
