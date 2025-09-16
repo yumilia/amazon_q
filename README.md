@@ -134,6 +134,7 @@ curl https://your-api-id.execute-api.region.amazonaws.com/prod/tx?month=2025-09
 - "Crie um projeto AWS CDK em Python com API Gateway, Lambda e DynamoDB (rotas /tx e /report/monthly)."
 - "Implemente função para parsear entrada como '50 restaurante almoço'."
 - "Gerar requirements.txt e passos de deploy com cdk."
+
 [Veja os prompts completos aqui](docs/prompts.md)
 
 ## Etapa 2
@@ -156,7 +157,7 @@ flowchart LR
 
 ### Testes
 
-Para rodar os testes localmente:
+#### Para rodar os testes localmente:
 
 ```bash
 python -m venv .venv
@@ -175,8 +176,8 @@ pytest -q
 ### Servidor MCP
 Foi configurado o **AWS Knowledge MCP Server** no Amazon Q Developer, permitindo buscar documentação e arquiteturas oficiais da AWS direto na IDE.  
 #### Screenshots capturadas durante a configuração:  
-- ![MCP configuração 1](docs/mcp1.png)  
-- ![MCP configuração 2](docs/mcp2.png)  
+![MCP configuração 1](docs/mcp1.png)  
+![MCP configuração 2](docs/mcp2.png)  
 
 ---
 
@@ -190,7 +191,7 @@ Foram adicionados dois arquivos na **raiz do projeto** para integração com o A
 
 ### IaC para deployar na AWS
 A infraestrutura é provisionada via **AWS CDK (Python)**, atendendo ao requisito de IaC.  
-Arquivos principais:
+#### Arquivos principais:
 - `app.py` – entrypoint do CDK  
 - `finapi/finapi_stack.py` – definição da infraestrutura (DynamoDB, Lambda e API Gateway)  
 - `cdk.json` e `requirements.txt` – configuração e dependências  
@@ -209,8 +210,7 @@ cdk deploy
 A estimativa de custo foi gerada automaticamente pelo **Amazon Q Developer**.
 O documento descreve uma arquitetura de **baixo custo** para o FinAPI, considerando uso de **API Gateway, AWS Lambda e DynamoDB**.
 
-Consulte o arquivo completo em:  
-[docs/architecture-ultra-low-cost.md](docs/architecture-ultra-low-cost.md)
+### Consulte o arquivo completo em: [docs/architecture-ultra-low-cost.md](docs/architecture-ultra-low-cost.md)
 
 ### Screenshot dos custos: 
 ![Estimativa de custos](docs/costs.png)
