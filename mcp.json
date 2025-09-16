@@ -1,0 +1,10 @@
+{
+  "version": "0.1",
+  "servers": {
+    "aws-knowledge-mcp-server": {
+      "transport": "http",
+      "url": "https://knowledge-mcp.global.api.aws",
+      "scope": "global"
+    }
+  }
+}

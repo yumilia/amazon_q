@@ -1,0 +1,10 @@
+{
+  "name": "FinAPI",
+  "description": "API de finanças pessoais construída com AWS CDK, Lambda, API Gateway e DynamoDB.",
+  "language": "python",
+  "framework": "aws-cdk",
+  "mcpConfig": "mcp.json",
+  "tests": {
+    "command": "pytest -q"
+  }
+}
