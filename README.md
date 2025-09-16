@@ -1,5 +1,19 @@
 # FinAPI – Controle de Finanças Pessoais
 
+## Sumário
+- [Descrição do problema](#descrição-do-problema)
+- [Solução](#solução)
+- [Arquitetura](#️-arquitetura)
+- [Estrutura do projeto](#-estrutura-do-projeto)
+- [Rotas](#-rotas)
+- [Deploy](#️-deploy)
+- [Exemplo de uso](#-exemplo-de-uso)
+- [Etapa 1](#-etapa-1)
+- [Etapa 2](#-etapa-2)
+- [Etapa 3](#-etapa-3)
+- [Etapa 4](#-etapa-4)
+- [Status geral](#-status-geral)
+
 ## Descrição do problema
 Muitas pessoas registram seus gastos de forma manual (planilhas, cadernos ou anotações soltas no celular).  
 Isso dificulta o acompanhamento mensal, o cálculo de ticket médio e a visualização de onde o dinheiro realmente está sendo gasto.  
@@ -161,7 +175,7 @@ pytest -q
 
 ### Servidor MCP
 Foi configurado o **AWS Knowledge MCP Server** no Amazon Q Developer, permitindo buscar documentação e arquiteturas oficiais da AWS direto na IDE.  
-Screenshots capturadas durante a configuração:  
+#### Screenshots capturadas durante a configuração:  
 - ![MCP configuração 1](docs/mcp1.png)  
 - ![MCP configuração 2](docs/mcp2.png)  
 
